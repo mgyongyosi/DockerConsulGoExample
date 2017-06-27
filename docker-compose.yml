@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+    node01:
+        image: "consul:0.8.4"
+        container_name: "node01"
+        hostname: "node01"
+        command: "consul agent -server -bootstrap-expect=2 -data-dir /tmp/consul"
+
+    node02:
+        image: "consul:0.8.4"
+        container_name: "node02"
+        hostname: "node02"
+        command: "consul agent -server -bootstrap-expect=2 -data-dir /tmp/consul -join=node01 -disable-host-node-id"
+        depends_on:
+            - "node01"
+
+    node03:
+        image: "consul:0.8.4"
+        container_name: "node03"
+        hostname: "node03"
+        ports:
+             - "8501:8500"
+        command: "consul agent -ui -client 0.0.0.0 -data-dir /tmp/consul -join=node01 -disable-host-node-id"
+        depends_on:
+            - "node01"
+        ports:
+            - "8500:8500"
+
+    weather:
+        image: "mgyongyosi/weather"
+        container_name: "weather"
+        ports:
+            - "8080:8080"
+        depends_on:
+            - "node01"
+            - "node02"
+            - "node03"
