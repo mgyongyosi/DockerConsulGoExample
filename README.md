@@ -4,4 +4,4 @@ I haven't found too much information on how to setup a Go service and Consul run
 
 1. Start with `docker-compose up`
 2. Check the Consul Web-UI on `localhost:8500/ui`
-3. Check the Go service on `localhost:8080/` and the 'heartbeat' on `localhost:8080/health` (it return only `200 OK`)
+3. Check the Go service on `localhost:8080/` and the 'heartbeat' on `localhost:8080/health` (it returns only `200 OK`)
